@@ -1,0 +1,191 @@
+"     oooooo     oooo ooooo ooo        ooooo ooooooooo.     .oooooo
+"      `888.     .8'  `888' `88.       .888' `888   `Y88.  d8P'  `Y8b
+"       `888.   .8'    888   888b     d'888   888   .d88' 888
+"        `888. .8'     888   8 Y88. .P  888   888ooo88P'  888
+"         `888.8'      888   8  `888'   888   888`88b.    888
+" .o.      `888'       888   8    Y     888   888  `88b.  `88b    ooo
+" Y8P       `8'       o888o o8o        o888o o888o  o888o  `Y8bood8P'
+"
+" Author:     Walter Anderson <walteranderson19@gmail.com>
+" Repository: https://bitbucket.org/walteranderson/dotfiles
+"
+
+filetype plugin indent on
+set nocompatible
+set hidden
+set expandtab
+set encoding=utf-8
+set nowrap
+set visualbell
+set ruler
+set history=1000
+
+
+" setting the length of a tab
+  set tabstop=4 shiftwidth=4
+" use mouse in terminal
+  set mouse=a
+" maintain context around cursor
+  set scrolloff=10
+
+" better copy and paste
+  set pastetoggle=<F2>
+  set clipboard=unnamed
+
+" display incomplete commands
+  set showcmd
+" backspace through everything in insert mode
+  set backspace=indent,eol,start
+" Show partial commands on last line of window
+  set showcmd
+" automatically reload buffers when file changes
+  set autoread
+
+" Resize splits when the window is resized
+  au VimResized * :wincmd =
+
+ " more natural split opening
+   set splitbelow
+   set splitright
+
+" force .md files to be markdown
+  autocmd BufNewFile,BufReadPost *.md set filetype=markdown
+  autocmd BufNewFile,BufReadPost *.md set wrap
+
+" list characters
+  set list
+  set listchars=tab:»·,nbsp:·,trail:·,eol:¬,extends:❯,precedes:❮
+  set showbreak=↪
+
+" }}}
+" Color Scheme & Display {{{
+
+syntax on
+set t_Co=256
+set background=dark
+colorscheme Tomorrow-Night-Eighties
+
+" colorscheme hybrid_reverse
+" let g:enable_bold_font = 1
+
+" highlight VCS conflict markers
+  match ErrorMsg '^\(<\|=\|>\)\{7\}\([^=].\+\)\?$'
+" set title of terminal to the file
+  set title
+" or relativenumber
+  set number
+" add line markers at 80 characters and 120 characters
+  set colorcolumn=80,120
+
+" }}}
+" Searching {{{
+
+" highlight matches
+set hlsearch
+" incremental searching
+set incsearch
+" searches are case insensitive...
+set ignorecase
+" ... unless they contain at least one capital letter
+set smartcase
+
+" Keep search matches in the middle of the window.
+nnoremap n nzzzv
+nnoremap N Nzzzv
+
+" }}}
+" Backups {{{
+
+set backup
+set noswapfile
+
+set undodir=~/.vim/tmp/undo//
+set backupdir=~/.vim/tmp/backup//
+set directory=~/.vim/tmp/swap//
+
+" Make those folders automatically if they don't already exist.
+if !isdirectory(expand(&undodir))
+    call mkdir(expand(&undodir), "p")
+endif
+if !isdirectory(expand(&backupdir))
+    call mkdir(expand(&backupdir), "p")
+endif
+if !isdirectory(expand(&directory))
+    call mkdir(expand(&directory), "p")
+endif
+
+" }}}
+" Folding {{{
+
+set foldlevelstart=0
+set foldmethod=marker
+
+" }}}
+" Remapping {{{
+
+" Leader key
+  let mapleader = "\<Space>"
+
+" escape to normal mode
+  imap jk <esc>
+
+" HJKL - quickly move through the document
+  noremap H ^
+  noremap L g_
+  noremap J 5j
+  noremap K 5k
+
+" move through display lines
+  nnoremap k gk
+  nnoremap j gj
+
+" remap ; to do :'s job
+  noremap ; :
+
+" easier movement between splits
+  noremap <C-J> <C-W>j<CR>
+  noremap <C-K> <C-W>k<CR>
+  noremap <C-H> <C-W>h<CR>
+  noremap <C-L> <C-W>l<CR>
+
+" cycle between buffers
+  noremap <leader>[ :bprevious<CR>
+  noremap <leader>] :bnext<CR>
+
+" close buffer
+  map <leader>w :bd<CR>
+
+" easy save
+  map <leader>s :w<CR>
+
+" disable vim insert mode completion
+  inoremap <C-P> <nop>
+
+" stay in visual mode when changing indentation
+  vnoremap < <gv
+  vnoremap > >gv
+
+" pressing return clears higlighted search
+  noremap <cr> :nohlsearch<cr>/<bs>
+
+" auto change directory to match current file
+nnoremap <leader>cd :cd %:p:h<CR>:pwd<CR>
+
+" increase vertical split size
+nmap <leader>v :vertical resize +10<CR>
+
+" Laravel framework common files
+nmap <leader>lr :e app/Http/routes.php<CR>
+nmap <leader>lesp :e app/Providers/EventServiceProvider.php<CR>
+
+nmap <leader>f :Ag 
+
+" }}}
+" Abbreviations {{{
+
+abbrev art !php artisan
+abbrev gm !php artisan make:model
+abbrev gc !php artisan make:controller
+abbrev gmig !php artisan make:migration
+
+" }}}
