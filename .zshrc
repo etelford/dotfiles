@@ -1,5 +1,6 @@
 # Path to your oh-my-zsh installation.
 export ZSH=/Users/etelford/.oh-my-zsh
+export HOMEBREW_GITHUB_API_TOKEN="821739124756075be4e07cb116080bd027ec8e57"
 
 # Set name of the theme to load.
 # Look in ~/.oh-my-zsh/themes/
@@ -53,7 +54,7 @@ plugins=(git)
 
 # User configuration
 
-export PATH="/usr/local/bin:/Users/etelford/.composer/vendor/bin:/opt/subversion/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/go/bin"
+export PATH="/usr/local/etc/init.d:/usr/local/bin:/Users/etelford/.composer/vendor/bin:/opt/subversion/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/go/bin"
 # export MANPATH="/usr/local/man:$MANPATH"
 
 source $ZSH/oh-my-zsh.sh
@@ -76,6 +77,8 @@ source $ZSH/oh-my-zsh.sh
 
 # -------- Aliases ---------
 alias ohmyzsh="mate ~/.oh-my-zsh"
+alias cdns="sudo killall -HUP mDNSResponder"
+alias updatedb="sudo /usr/libexec/locate.updatedb"
 
 alias composer="php /usr/local/bin/composer.phar"
 
@@ -86,11 +89,16 @@ alias sf="defaults write com.apple.finder AppleShowAllFiles YES"
 alias hf="defaults write com.apple.finder AppleShowAllFiles NO"
 
 alias pu="vendor/bin/phpunit"
+alias puf="vendor/bin/phpunit --filter="
 alias art="php artisan"
 
 #GIT
 alias gpo="git pull origin"
 alias gp="git pull"
+
+alias gpod="git push origin dev"
+alias gpom="git push origin master"
+alias gpor="git push origin release"
 
 alias gc="git checkout"
 alias gcm="git checkout master"
@@ -100,7 +108,6 @@ alias glog="git log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset
 alias gl1="git log --oneline"
 alias gl="git log"
 
-alias gdb="git branch -d"
 alias gdr="git push origin --delete"
 alias gp="git fetch --prune"
 
@@ -111,5 +118,33 @@ alias gcm="git commit -m"
 alias gs="git status"
 alias gd="git difftool"
 
+alias gshowfiles="git diff-tree --no-commit-id --name-only -r "
+
+#export CLICOLOR=1
+#export LSCOLORS=gxBxhxDxfxhxhxhxhxcxcx
+
+# Homestead
+alias hedit="subl ~/.homestead/Homestead.yaml"
+
+alias linksdk="mv microventures-sdk-php microventures-sdk-php.bak; ln -s ../../../../microventures-sdk-php ./"
+alias unlinksdk="rm microventures-sdk-php; mv microventures-sdk-php.bak microventures-sdk-php"
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+# Functions
+function homestead() {
+    ( cd ~/Homestead && vagrant $* )
+}
+
+function gdb() {
+    ( git branch -d $1; git push origin --delete $1; git fetch --prune; )
+}
+
+# oh-my-zsh
+alias ze="vi ~/.zshrc"
+
+# Forge
+function deploy() {
+    xargs curl -I < .forge &
+}
+export PATH="/usr/local/sbin:$PATH"
